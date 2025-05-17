@@ -11,6 +11,7 @@ class CurrencyExchangeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Currency Exchange',
+<<<<<<< HEAD
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
@@ -29,10 +30,17 @@ class CurrencyExchangeApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: ExchangeRatePage(),
+=======
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ExchangeHomePage(),
+>>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
     );
   }
 }
 
+<<<<<<< HEAD
 class ExchangeRatePage extends StatefulWidget {
   @override
   _ExchangeRatePageState createState() => _ExchangeRatePageState();
@@ -65,6 +73,41 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${e.toString()}")),
+=======
+class ExchangeHomePage extends StatefulWidget {
+  @override
+  _ExchangeHomePageState createState() => _ExchangeHomePageState();
+}
+
+class _ExchangeHomePageState extends State<ExchangeHomePage> {
+  String fromCurrency = 'USD';
+  String toCurrency = 'EUR';
+  double? exchangeRate;
+  bool isLoading = false;
+
+  final currencies = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF'];
+
+  Future<void> fetchExchangeRate() async {
+    setState(() {
+      isLoading = true;
+    });
+    final url =
+        'https://api.exchangerate.host/latest?base=$fromCurrency&symbols=$toCurrency';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        exchangeRate = data['rates'][toCurrency]?.toDouble();
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        exchangeRate = null;
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch exchange rate')),
+>>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
       );
     }
   }
@@ -79,6 +122,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         title: Text("💱 Currency Exchange"),
         centerTitle: true,
         backgroundColor: Colors.indigo,
@@ -142,12 +186,64 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                           targetCurrency = value;
                         });
                       }
+=======
+        title: Text('Currency Exchange'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: fetchExchangeRate,
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: fromCurrency,
+                    items: currencies.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        fromCurrency = newValue!;
+                        fetchExchangeRate();
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: toCurrency,
+                    items: currencies.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        toCurrency = newValue!;
+                        fetchExchangeRate();
+                      });
+>>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
                     },
                   ),
                 ),
               ],
             ),
             SizedBox(height: 24),
+<<<<<<< HEAD
             ElevatedButton.icon(
               onPressed: fetchExchangeRate,
               icon: Icon(Icons.sync),
@@ -198,6 +294,18 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                 padding: const EdgeInsets.all(40.0),
                 child: CircularProgressIndicator(),
               ),
+=======
+            Center(
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : exchangeRate != null
+                      ? Text(
+                          '1 $fromCurrency = ${exchangeRate!.toStringAsFixed(4)} $toCurrency',
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        )
+                      : Text('Unable to fetch data'),
+            ),
+>>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
           ],
         ),
       ),
