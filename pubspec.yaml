@@ -1,39 +1,22 @@
-<<<<<<< HEAD
 name: currency_exchange_final
-description: A modern Flutter app for real-time currency exchange.
+description: A Flutter app to show real-time currency exchange.
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
-=======
-name: currency_exchange_flutter
-description: A simple Flutter app to check currency exchange rates.
-publish_to: 'none'
-version: 1.0.0+1
-
-environment:
-  sdk: '>=2.18.0 <3.0.0'
->>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
 
 dependencies:
   flutter:
     sdk: flutter
-<<<<<<< HEAD
   http: ^0.13.6
   cupertino_icons: ^1.0.6
-=======
-  http: ^0.13.5
->>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-<<<<<<< HEAD
   flutter_lints: ^3.0.0
-=======
->>>>>>> 00c5b255bff348e0d721a373dfa41b8d5c51ada9
 
 flutter:
   uses-material-design: true
